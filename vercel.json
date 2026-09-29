@@ -21,17 +21,10 @@
       ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/verification",
-      "dest": "/verification.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/verification",
+      "destination": "/verification.html"
     }
   ]
 }

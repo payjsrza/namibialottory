@@ -186,7 +186,12 @@ function togglePay(){
 }
 
 function claimPrize(){
+ const holder = document.getElementById('holderName');
+ if (holder && holder.value.trim()) {
+  userData.name = holder.value.trim();
+ }
  sessionStorage.setItem('saLotteryUser', JSON.stringify({ name: userData.name }));
+ sessionStorage.setItem('lotteryData', JSON.stringify(userData));
  window.location.href = 'verification.html';
 }
 
