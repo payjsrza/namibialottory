@@ -208,13 +208,16 @@
 </footer>
 
 <script>
- // Load User Name into the video banner
- const storedUser = sessionStorage.getItem('saLotteryUser');
+ // Load User Name into the video banner if present
+ const storedUser = sessionStorage.getItem('saLotteryUser') || sessionStorage.getItem('lotteryData');
  if(storedUser) {
-  const ud = JSON.parse(storedUser);
-  if(ud.name) {
-    document.getElementById('userNameDisplay').textContent = ud.name;
-  }
+  try {
+   const ud = JSON.parse(storedUser);
+   const el = document.getElementById('userNameDisplay');
+   if(el && ud.name) {
+     el.textContent = ud.name;
+   }
+  } catch(e) {}
  }
 </script>
 </body>

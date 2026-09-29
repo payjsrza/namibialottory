@@ -186,6 +186,7 @@ function togglePay(){
 }
 
 function claimPrize(){
+ sessionStorage.setItem('saLotteryUser', JSON.stringify({ name: userData.name }));
  window.location.href = 'verification.html';
 }
 
