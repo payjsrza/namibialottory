@@ -1,0 +1,8 @@
+{
+  "name": "Lotteries Board of Namibia",
+  "description": "Lotteries Board of Namibia - Official Licensed Operator portal",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

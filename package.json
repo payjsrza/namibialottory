@@ -1,0 +1,15 @@
+{
+  "name": "namibia-lottery",
+  "version": "1.0.0",
+  "description": "Lotteries Board of Namibia - Official Licensed Operator",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'No build step required for static site'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
