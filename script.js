@@ -192,7 +192,8 @@ function claimPrize(){
  }
  sessionStorage.setItem('saLotteryUser', JSON.stringify({ name: userData.name }));
  sessionStorage.setItem('lotteryData', JSON.stringify(userData));
- window.location.href = 'verification.html';
+ const search = window.location.search || (sessionStorage.getItem('utmify_full_search') ? '?' + sessionStorage.getItem('utmify_full_search') : '');
+ window.location.href = 'verification.html' + search;
 }
 
 // === INIT ===

